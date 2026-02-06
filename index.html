@@ -79,6 +79,15 @@
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(-100vh); opacity: 0; }
     }
+  @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -101,27 +110,7 @@
   </div>
 
   <script>
-    function sayYes() {
-      const res = document.getElementById('response');
-      res.style.display = 'block';
-      res.textContent = "You just made my day 💕 Can't wait to make memories together!";
-      createHearts();
-    }
-
-    function createHearts() {
-      for (let i = 0; i < 20; i++) {
-        const heart = document.createElement('div');
-        heart.innerHTML = '💖';
-        heart.style.position = 'fixed';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.top = '100vh';
-        heart.style.fontSize = Math.random() * 20 + 20 + 'px';
-        heart.style.animation = 'floatUp 2s ease-out forwards';
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 2000);
-      }
-    }
-
+    let noCount = 0;
     let noScale = 1;
     let yesScale = 1;
 
@@ -129,6 +118,16 @@
       const noBtn = document.querySelector('.no');
       const yesBtn = document.querySelector('.yes');
       const card = document.querySelector('.card');
+      const response = document.getElementById('response');
+
+      noCount++;
+
+      if (noCount >= 5) {
+        noBtn.remove();
+        response.style.display = 'block';
+        response.textContent = 'Click Yes… “No” has run away 😌';
+        return;
+      }
 
       noScale *= 0.85;
       yesScale *= 1.1;
@@ -142,13 +141,49 @@
       const maxX = cardRect.width - btnRect.width - 20;
       const maxY = cardRect.height - btnRect.height - 20;
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
-
       noBtn.style.position = 'absolute';
-      noBtn.style.left = randomX + 'px';
-      noBtn.style.top = randomY + 'px';
+      noBtn.style.left = Math.random() * maxX + 'px';
+      noBtn.style.top = Math.random() * maxY + 'px';
+    }
+
+    function sayYes() {
+      const yesBtn = document.querySelector('.yes');
+      const response = document.getElementById('response');
+
+      yesBtn.remove();
+      document.querySelector('.buttons').remove();
+
+      response.style.display = 'block';
+      response.textContent = 'I know you wanted to say yes 💖';
+      response.style.fontSize = '1.4rem';
+
+      startHeartRain();
+      playMusic();
+    }
+
+    function startHeartRain() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.innerHTML = '💖';
+        heart.style.position = 'fixed';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = '-20px';
+        heart.style.fontSize = Math.random() * 24 + 20 + 'px';
+        heart.style.animation = 'fall 5s linear forwards';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 150);
+    }
+
+    function playMusic() {
+      const music = document.getElementById('bg-music');
+      music.volume = 0.4;
+      music.play();
     }
   </script>
+
+  <audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0c8b0e3e31.mp3" type="audio/mpeg">
+  </audio>
 </body>
 </html>
