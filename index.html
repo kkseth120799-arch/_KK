@@ -47,7 +47,7 @@
       gap: 1rem;
       margin-top: 1.5rem;
       position: relative;
-      height: 70px;
+      height: 80px;
     }
 
     button {
@@ -62,12 +62,17 @@
     .yes {
       background: #e63946;
       color: #fff;
+      position: relative;
+      z-index: 3;
     }
 
     .no {
       background: #f1f1f1;
       color: #333;
       position: absolute;
+      left: 160px; /* start slightly away from Yes */
+      top: 0;
+      z-index: 1;
     }
 
     .response {
